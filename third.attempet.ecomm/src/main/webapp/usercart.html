@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Your Bag</title>
+    <style>
+        :root {
+            --bg-deep: #1e293b;
+            --bg-card: #334155;
+            --text-bright: #f8fafc;
+            --accent: #22d3ee;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-bright);
+        }
+
+        header {
+            padding: 20px 40px;
+            background: rgba(15, 23, 42, 0.8);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header a { color: var(--accent); text-decoration: none; font-size: 13px; }
+
+        .cartContainer {
+            max-width: 600px;
+            margin: 50px auto;
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .cartItem {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .price { color: var(--accent); font-weight: bold; }
+
+        .total {
+            text-align: right;
+            font-size: 24px;
+            margin-top: 30px;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        footer { text-align: center; padding: 40px; color: #64748b; font-size: 11px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>Your Bag</h2>
+        <a href="homepage.html">← Back to Shop</a>
+    </header>
+    <div class="cartContainer" id="cart"></div>
+    <footer>Studio Essentials · 2026</footer>
+
+    <script>
+        fetch("/third.attempet.ecomm/UserCart")
+        .then(res => res.json())
+        .then(data => {
+            const cart = document.getElementById("cart");
+            let total = 0;
+            data.forEach(p => {
+                total += p.productPrice;
+                cart.innerHTML += `
+                    <div class="cartItem">
+                        <h4>${p.productName}</h4>
+                        <span class="price">₹${p.productPrice}</span>
+                        <input type="button" value="buy"/>
+                    </div>`;
+            });
+            cart.innerHTML += `<div class="total">Total: ₹${total}</div>`;
+        });
+    </script>
+</body>
+</html>
